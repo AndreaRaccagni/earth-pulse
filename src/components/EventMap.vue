@@ -12,25 +12,51 @@ import VectorLayer from 'ol/layer/Vector.js';
 import VectorSource from 'ol/source/Vector.js';
 import GeoJSON from 'ol/format/GeoJSON.js';
 import 'ol/ol.css';
-import Point from 'ol/geom/Point.js';
 import Link from 'ol/interaction/Link';
-import { toLonLat } from 'ol/proj.js';
-import { getCenter } from 'ol/extent.js';
-import type { NaturalEvent } from '../types/event';
 
-const props = defineProps<{ events: any | null }>();
+const props = defineProps<{ events: any | null; selectedEventId: string | null }>();
 const emits = defineEmits(['eventSelected']);
 
 const map = shallowRef<Map | null>(null);
 const vectorSource = new VectorSource();
+
+const WORLD_CENTER: [number, number] = [0, 0];
+const WORLD_ZOOM = 0;
+const FLY_MS = 1000;
+
+function flyTo(id: string | null) {
+  const view = map.value?.getView();
+  if (!view) return;
+
+  view.cancelAnimations();
+
+  if (!id) {
+    view.animate({
+      center: WORLD_CENTER,
+      zoom: WORLD_ZOOM,
+      duration: FLY_MS,
+    });
+    return;
+  }
+
+  const feature = vectorSource.getFeatures().find((f) => f.get('id') === id);
+  const geometry = feature?.getGeometry();
+  if (!geometry) return;
+
+  view.fit(geometry.getExtent(), {
+    duration: FLY_MS,
+    padding: [80, 80, 80, 80],
+    maxZoom: 8,
+  });
+}
 
 onMounted(async () => {
   map.value = new Map({
     target: 'map',
     layers: [new TileLayer({ source: new OSM() }), new VectorLayer({ source: vectorSource })],
     view: new View({
-      center: [0, 0],
-      zoom: 2,
+      center: WORLD_CENTER,
+      zoom: WORLD_ZOOM,
     }),
   });
 
@@ -38,27 +64,11 @@ onMounted(async () => {
 
   map.value.on('click', (event) => {
     const feature = map.value!.forEachFeatureAtPixel(event.pixel, (f) => f);
-    let naturalEvent: NaturalEvent | null = null;
-
-    if (feature) {
-      const data = feature.getProperties();
-      const geom = feature.getGeometry();
-      if (geom) {
-        const coord = geom.getType() === 'Point' ? (geom as Point).getCoordinates() : getCenter(geom.getExtent());
-        const [longitude, latitude] = toLonLat(coord);
-
-        naturalEvent = {
-          id: data.id,
-          title: data.title,
-          category: data.categories?.[0]?.id ?? 'unknown',
-          longitude: Number(longitude.toFixed(2)),
-          latitude: Number(latitude.toFixed(2)),
-        };
-      }
-    }
-    emits('eventSelected', naturalEvent);
+    emits('eventSelected', feature ? feature.get('id') : null);
   });
 });
+
+watch(() => props.selectedEventId, flyTo);
 
 watch(
   () => props.events,
