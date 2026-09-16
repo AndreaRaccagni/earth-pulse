@@ -23,5 +23,6 @@ dist-ssr
 *.sln
 *.sw?
 
-# documents
+# Private notes. Public drafts live in articles/ (committed).
 docs/*
+articles/*
