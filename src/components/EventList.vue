@@ -3,9 +3,9 @@
     <ul>
       <li
         v-for="event in events"
-        :key="event.properties.id"
-        :class="{ selected: event.properties.id === selectedEventId }"
-        @click="emits('eventSelected', event.properties.id)"
+        :key="event.id"
+        :class="{ selected: event.id === selectedEventId }"
+        @click="emits('eventSelected', event.id)"
       >
         <a>{{ event.properties?.title }}</a>
       </li>

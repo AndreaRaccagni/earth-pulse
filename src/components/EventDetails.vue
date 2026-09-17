@@ -6,7 +6,7 @@
     <p>{{ event.latitude }}</p>
   </div>
   <div v-else>No event selected</div>
-  <button @click="emits('clearEvent')">Close</button>
+  <button @click="emits('clearEvent')">Clear</button>
 </template>
 
 <script setup lang="ts">

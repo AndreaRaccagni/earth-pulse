@@ -16,9 +16,13 @@ async function load() {
   status.value = 'loading';
   errorMessage.value = null;
   try {
-    const data = await fetchNaturalEvents();
-    events.value = data;
-    status.value = data.features?.length ? 'success' : 'empty';
+    const fetchedEvents = await fetchNaturalEvents();
+    const data = fetchedEvents.features;
+    const newEvents = data.map((item: any, index: number) => {
+      return { id: item.properties.id + ':' + index, ...item };
+    });
+    events.value = { ...fetchedEvents, features: newEvents };
+    status.value = fetchedEvents.features.length > 0 ? 'success' : 'empty';
   } catch (e) {
     events.value = null;
     errorMessage.value = e instanceof Error ? e.message : 'Failed to load';
@@ -27,10 +31,11 @@ async function load() {
 }
 
 const currentNaturalEvent = computed(() => {
-  const event = events.value?.features.find((event: any) => event.properties.id === currentEventId.value);
+  if (!events.value) return null;
+  const event = events.value.features.find((event: any) => event.id === currentEventId.value);
   return event
     ? {
-        id: event.properties.id,
+        id: event.id,
         title: event.properties.title,
         category: event.properties.categories?.[0]?.id ?? 'unknown',
         longitude: event.geometry.coordinates[0],
