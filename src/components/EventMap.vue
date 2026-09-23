@@ -67,7 +67,7 @@ const vectorLayer = new VectorLayer({
         stroke: new Stroke({ color: 'white', width: 1 }),
       }),
       stroke: new Stroke({
-        color: selected ? 'var(--ember)' : 'var(--sea)',
+        color: selected ? '#b42318' : '#1f6f8b',
         width: selected ? 3 : 1,
       }),
       fill: new Fill({
