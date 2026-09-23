@@ -7,7 +7,7 @@
         :class="{ selected: event.id === selectedEventId }"
         @click="emits('eventSelected', event.id)"
       >
-        <a>{{ event.properties?.title }}</a>
+        {{ event.properties?.title }}
       </li>
     </ul>
   </div>
@@ -23,11 +23,20 @@ const emits = defineEmits(['eventSelected']);
 </script>
 
 <style scoped>
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
 li {
   cursor: pointer;
+  padding: 0.45rem 0.75rem;
+  line-height: 1.35;
 }
 
 li.selected {
-  color: red;
+  background: #f8ebe3;
+  color: var(--ember);
+  box-shadow: inset 3px 0 0 var(--ember);
 }
 </style>

@@ -1,12 +1,32 @@
+:root {
+  --sea: #1f6f8b;
+  --ember: #b42318;
+  --paper: #f3efe6;
+  --ink: #1c1917;
+  --muted: #6b6258;
+  --font-ui: 'Source Sans 3', Arial, sans-serif;
+  --font-display: 'Fraunces', Georgia, serif;
+
+  font-family: var(--font-ui);
+  color: var(--ink);
+  background: var(--paper);
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+}
+
 html,
 body,
 #app {
-  width: 100vw;
-  height: 100vh;
+  height: 100%;
   margin: 0;
+  overflow: hidden;
 }
 
-.app-container {
-  display: flex;
-  height: 100%;
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
