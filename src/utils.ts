@@ -1,3 +1,24 @@
+export const camelCaseToName = (value: string): string => {
+  if (!value) return '';
+
+  const words: string[] = [];
+  let left = 0;
+
+  for (let right = 1; right < value.length; right++) {
+    const isUppercase = value[right] !== value[right].toLowerCase();
+
+    if (isUppercase) {
+      const word = value.slice(left, right);
+      words.push(word[0].toUpperCase() + word.slice(1));
+      left = right;
+    }
+  }
+
+  const lastWord = value.slice(left);
+  words.push(lastWord[0].toUpperCase() + lastWord.slice(1));
+  return words.join(' ');
+};
+
 export const getlonAndLatFromEvent = (event: any): [number, number] | null => {
   if (!event?.geometry?.coordinates) return null;
 
@@ -25,3 +46,4 @@ export const getlonAndLatFromEvent = (event: any): [number, number] | null => {
   }
   return null;
 };
+

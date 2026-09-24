@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { onMounted, ref, computed } from 'vue';
+import { onMounted, ref, computed, watch } from 'vue';
 import EventMap from './components/EventMap.vue';
 import EventDetails from './components/EventDetails.vue';
 import EventList from './components/EventList.vue';
 import { fetchNaturalEvents } from './api/eonet';
-import { getlonAndLatFromEvent } from './utils';
+import { camelCaseToName, getlonAndLatFromEvent } from './utils';
 
 type Status = 'loading' | 'success' | 'empty' | 'error';
 
@@ -12,6 +12,7 @@ const events = ref<any | null>(null);
 const status = ref<Status>('loading');
 const errorMessage = ref<string | null>(null);
 const currentEventId = ref<string | null>(null);
+const selectedEventType = ref<string>('All');
 
 async function load() {
   status.value = 'loading';
@@ -20,7 +21,7 @@ async function load() {
     const fetchedEvents = await fetchNaturalEvents();
     const data = fetchedEvents.features;
     const newEvents = data.map((item: any, index: number) => {
-      return { id: item.properties.id + ':' + index, ...item };
+      return { ...item, id: item.properties.id + ':' + index };
     });
     events.value = { ...fetchedEvents, features: newEvents };
     status.value = fetchedEvents.features.length > 0 ? 'success' : 'empty';
@@ -30,6 +31,35 @@ async function load() {
     status.value = 'error';
   }
 }
+
+const eventTypes = computed(() => {
+  const values = [
+    ...new Set(events.value?.features.map((event: any) => event.properties.categories?.[0]?.id).filter(Boolean) ?? []),
+  ] as string[];
+
+  return values.map((value) => ({
+    name: camelCaseToName(value),
+    value,
+  }));
+});
+
+const filteredEvents = computed(() => {
+  if (!events.value) return null;
+  if (selectedEventType.value === 'All') return events.value;
+
+  return {
+    ...events.value,
+    features: events.value.features.filter(
+      (event: any) => event.properties.categories?.[0]?.id === selectedEventType.value
+    ),
+  };
+});
+
+watch(selectedEventType, () => {
+  if (!currentEventId.value || !filteredEvents.value) return;
+  const stillVisible = filteredEvents.value.features.some((event: any) => event.id === currentEventId.value);
+  if (!stillVisible) currentEventId.value = null;
+});
 
 const currentNaturalEvent = computed(() => {
   if (!events.value) return null;
@@ -41,7 +71,7 @@ const currentNaturalEvent = computed(() => {
     ? {
         id: event.id,
         title: event.properties.title,
-        category: event.properties.categories?.[0]?.id ?? 'unknown',
+        category: camelCaseToName(event.properties.categories?.[0]?.id ?? 'unknown'),
         longitude: lonAndLat[0],
         latitude: lonAndLat[1],
       }
@@ -58,18 +88,25 @@ onMounted(load);
       <section class="events-container">
         <EventMap
           class="event-map"
-          :events="events"
+          :events="filteredEvents"
           :selectedEventId="currentEventId"
           @eventSelected="currentEventId = $event"
         />
         <div class="event-list">
+          <select v-model="selectedEventType">
+            <option value="All">All</option>
+            <option v-for="eventType in eventTypes" :key="eventType.value" :value="eventType.value">
+              {{ eventType.name }}
+            </option>
+          </select>
           <EventList
-            v-if="status === 'success'"
-            :events="events.features"
+            v-if="status === 'success' && filteredEvents?.features.length"
+            :events="filteredEvents.features"
             :selectedEventId="currentEventId"
             @eventSelected="currentEventId = $event"
           />
           <div v-else-if="status === 'loading'">Loading events…</div>
+          <div v-else-if="status === 'success'">No events</div>
           <div v-else-if="status === 'empty'">No open events</div>
           <div v-else-if="status === 'error'">
             {{ errorMessage }}
