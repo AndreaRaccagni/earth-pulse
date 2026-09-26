@@ -83,7 +83,11 @@ onMounted(load);
 
 <template>
   <div class="app-container">
-    <h1>Event Map</h1>
+    <div class="app-header">
+      <h1>Event Map</h1>
+      <p>Live natural events</p>
+    </div>
+
     <div class="content-container">
       <section class="events-container">
         <EventMap
@@ -114,15 +118,7 @@ onMounted(load);
           </div>
         </div>
       </section>
-      <section>
-        <h2>Event Details</h2>
-        <div v-if="currentEventId">
-          <EventDetails :event="currentNaturalEvent" @clearEvent="currentEventId = null" />
-        </div>
-        <div v-else>
-          <p>No event selected</p>
-        </div>
-      </section>
+      <EventDetails :event="currentEventId ? currentNaturalEvent : null" @clearEvent="currentEventId = null" />
     </div>
   </div>
 </template>
@@ -153,11 +149,12 @@ onMounted(load);
   flex: 1;
   min-height: 0;
   overflow: hidden;
+  gap: 15px;
 }
 
 .events-container {
   display: flex;
-  gap: 10px;
+  gap: 15px;
   flex: 1;
   min-height: 0;
   overflow: hidden;

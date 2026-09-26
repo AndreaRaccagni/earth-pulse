@@ -35,7 +35,7 @@ li {
 }
 
 li.selected {
-  background: #f8ebe3;
+  background: var(--highlight);
   color: var(--ember);
   box-shadow: inset 3px 0 0 var(--ember);
 }

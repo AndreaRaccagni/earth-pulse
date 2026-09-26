@@ -2,8 +2,13 @@
   --sea: #1f6f8b;
   --ember: #b42318;
   --paper: #f3efe6;
+  --card: #fffdf8;
+  --line: #e4ddd0;
   --ink: #1c1917;
   --muted: #6b6258;
+  --highlight: #f8ebe3;
+  --radius: 12px;
+  --radius-sm: 8px;
   --font-ui: 'Source Sans 3', Arial, sans-serif;
   --font-display: 'Fraunces', Georgia, serif;
 
