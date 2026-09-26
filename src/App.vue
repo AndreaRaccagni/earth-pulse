@@ -133,14 +133,21 @@ onMounted(load);
   overflow: hidden;
 }
 
-.app-container > h1 {
+.app-header > h1 {
   margin: 0;
-  padding: 0.25rem 0 0.75rem;
   font-family: var(--font-display);
   font-weight: 560;
-  font-size: 1.75rem;
+  font-size: 2rem;
   letter-spacing: -0.03em;
-  text-align: center;
+}
+
+.app-header > p {
+  margin: 5px 0;
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
 }
 
 .content-container {
