@@ -1,3 +1,13 @@
+<script setup lang="ts">
+import type { NaturalEvent } from '../types/event';
+
+const props = defineProps<{
+  event: NaturalEvent | null;
+}>();
+
+const emits = defineEmits(['clearEvent']);
+</script>
+
 <template>
   <div class="event-details">
     <p class="label">Event Details</p>
@@ -16,16 +26,6 @@
     <p v-else class="empty">No event selected</p>
   </div>
 </template>
-
-<script setup lang="ts">
-import type { NaturalEvent } from '../types/event';
-
-const props = defineProps<{
-  event: NaturalEvent | null;
-}>();
-
-const emits = defineEmits(['clearEvent']);
-</script>
 
 <style scoped>
 .event-details {

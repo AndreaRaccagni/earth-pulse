@@ -1,7 +1,3 @@
-<template>
-  <div id="map"></div>
-</template>
-
 <script setup lang="ts">
 import { onMounted, shallowRef, watch } from 'vue';
 import Map from 'ol/Map.js';
@@ -118,6 +114,10 @@ watch(
   { immediate: true }
 );
 </script>
+
+<template>
+  <div id="map"></div>
+</template>
 
 <style scoped>
 #map {

@@ -1,3 +1,12 @@
+<script setup lang="ts">
+const props = defineProps<{
+  events: any;
+  selectedEventId: string | null;
+}>();
+
+const emits = defineEmits(['eventSelected']);
+</script>
+
 <template>
   <div>
     <ul>
@@ -12,15 +21,6 @@
     </ul>
   </div>
 </template>
-
-<script setup lang="ts">
-const props = defineProps<{
-  events: any;
-  selectedEventId: string | null;
-}>();
-
-const emits = defineEmits(['eventSelected']);
-</script>
 
 <style scoped>
 ul {
