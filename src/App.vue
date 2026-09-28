@@ -109,12 +109,12 @@ onMounted(load);
             :selectedEventId="currentEventId"
             @eventSelected="currentEventId = $event"
           />
-          <div v-else-if="status === 'loading'">Loading events…</div>
-          <div v-else-if="status === 'success'">No events</div>
-          <div v-else-if="status === 'empty'">No open events</div>
-          <div v-else-if="status === 'error'">
+          <div v-else-if="status === 'loading'" class="loading">Loading events…</div>
+          <div v-else-if="status === 'success'" class="no-events">No events</div>
+          <div v-else-if="status === 'empty'" class="no-open-events">No open events</div>
+          <div v-else-if="status === 'error'" class="error">
             {{ errorMessage }}
-            <button @click="load">Retry</button>
+            <button @click="load" class="retry">Retry</button>
           </div>
         </div>
       </section>
@@ -129,7 +129,7 @@ onMounted(load);
   flex-direction: column;
   height: 100%;
   min-height: 0;
-  padding: 10px;
+  padding: 20px;
   overflow: hidden;
 }
 
@@ -142,9 +142,8 @@ onMounted(load);
 }
 
 .app-header > p {
-  margin: 5px 0;
+  margin: 5px 0 15px;
   font-size: 0.9rem;
-  font-weight: 400;
   color: var(--muted);
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -171,12 +170,57 @@ onMounted(load);
   flex: 1;
   min-width: 0;
   min-height: 0;
+  overflow: hidden;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
 }
 
 .event-list {
-  flex: 0 0 18rem;
-  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 auto;
+  width: clamp(18rem, 28vw, 24rem);
   min-height: 0;
-  background: white;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+select {
+  padding: 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--paper);
+  font: inherit;
+  cursor: pointer;
+  width: calc(100% - 20px);
+  margin: 10px;
+}
+
+select:focus {
+  outline: 1px solid var(--ember);
+  border-color: var(--ember);
+}
+
+.loading,
+.no-events,
+.no-open-events,
+.error {
+  padding: 10px;
+  text-align: center;
+  color: var(--muted);
+}
+
+@media (max-width: 1028px) {
+  .events-container {
+    flex-direction: column;
+  }
+
+  .event-list {
+    flex: 0 0 18rem;
+    width: auto;
+  }
 }
 </style>
