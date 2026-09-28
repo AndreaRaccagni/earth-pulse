@@ -10,7 +10,7 @@ const emits = defineEmits(['clearEvent']);
 
 <template>
   <div class="event-details">
-    <p class="label">Event Details</p>
+    <h2 class="label">Event Details</h2>
     <template v-if="event">
       <p class="event-title">{{ event.title }}</p>
       <dl>
