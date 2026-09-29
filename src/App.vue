@@ -4,7 +4,7 @@ import EventMap from './components/EventMap.vue';
 import EventDetails from './components/EventDetails.vue';
 import EventList from './components/EventList.vue';
 import { fetchNaturalEvents } from './api/eonet';
-import { camelCaseToName, getlonAndLatFromEvent, formatDate } from './utils';
+import { camelCaseToName, getlonAndLatFromEvent } from './utils';
 
 type Status = 'loading' | 'success' | 'empty' | 'error';
 
@@ -74,7 +74,6 @@ const currentNaturalEvent = computed(() => {
         category: camelCaseToName(event.properties.categories?.[0]?.id ?? 'unknown'),
         longitude: lonAndLat[0],
         latitude: lonAndLat[1],
-        date: formatDate(event.properties.date),
       }
     : null;
 });

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { formatDate } from '../utils';
 const props = defineProps<{
   events: any;
   selectedEventId: string | null;
@@ -16,7 +17,7 @@ const emits = defineEmits(['eventSelected']);
         :aria-pressed="event.id === selectedEventId"
       >
         <span class="title">{{ event.properties?.title }}</span>
-        <small class="date">{{ event.properties?.date }}</small>
+        <small class="date">{{ formatDate(event.properties?.date) }}</small>
       </button>
     </li>
   </ul>
