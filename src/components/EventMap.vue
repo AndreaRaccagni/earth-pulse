@@ -23,6 +23,12 @@ const vectorSource = new VectorSource();
 const WORLD_CENTER: [number, number] = [0, 0];
 const WORLD_ZOOM = 0;
 const FLY_MS = 1000;
+const COLORS = {
+  selected: '#b42318',
+  default: '#1f6f8b',
+  selectedFill: 'rgba(180, 35, 24, 0.25)',
+  defaultFill: 'rgba(31, 111, 139, 0.2)',
+};
 
 function flyTo(id: string | null) {
   const view = map.value?.getView();
@@ -59,15 +65,15 @@ const vectorLayer = new VectorLayer({
     return new Style({
       image: new Circle({
         radius: selected ? 8 : 5,
-        fill: new Fill({ color: selected ? 'red' : '#3399CC' }),
+        fill: new Fill({ color: selected ? COLORS.selected : COLORS.default }),
         stroke: new Stroke({ color: 'white', width: 1 }),
       }),
       stroke: new Stroke({
-        color: selected ? '#b42318' : '#1f6f8b',
+        color: selected ? COLORS.selected : COLORS.default,
         width: selected ? 3 : 1,
       }),
       fill: new Fill({
-        color: selected ? 'rgba(255,0,0,0.3)' : 'rgba(51,153,204,0.2)',
+        color: selected ? COLORS.selectedFill : COLORS.defaultFill,
       }),
     });
   },
