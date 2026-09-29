@@ -19,6 +19,16 @@ export const camelCaseToName = (value: string): string => {
   return words.join(' ');
 };
 
+export const formatDate = (date: string): string => {
+  if (!date) return '';
+  return new Date(date).toLocaleString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+  });
+};
 export const getlonAndLatFromEvent = (event: any): [number, number] | null => {
   if (!event?.geometry?.coordinates) return null;
 
@@ -46,4 +56,3 @@ export const getlonAndLatFromEvent = (event: any): [number, number] | null => {
   }
   return null;
 };
-
