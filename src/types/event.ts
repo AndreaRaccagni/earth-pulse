@@ -4,5 +4,4 @@ export type NaturalEvent = {
   category: string;
   longitude: number;
   latitude: number;
-  date: string;
 };
