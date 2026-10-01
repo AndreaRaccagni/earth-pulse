@@ -1,0 +1,12 @@
+git add vite.config.ts package.json
+git commit -m "build: set the base path for GitHub Pages and pin pnpm"
+
+git add public/favicon.svg
+git commit -m "style: use the earth emoji as favicon"
+
+git commit -m "chore: remove unused Vite starter assets"
+
+git add .github/workflows/deploy.yml
+git commit -m "ci: type-check, build and deploy to GitHub Pages"
+
+git push
