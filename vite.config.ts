@@ -5,7 +5,4 @@ import { defineConfig } from 'vite';
 export default defineConfig({
   plugins: [vue()],
   base: '/earth-pulse/',
-  define: {
-    __APP_VERSION__: JSON.stringify(process.env.npm_package_version),
-  },
 });
