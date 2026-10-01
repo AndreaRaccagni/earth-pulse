@@ -1,8 +1,9 @@
 {
   "name": "earth-pulse",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.1.0",
   "type": "module",
+  "packageManager": "pnpm@9.5.0",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc -b && vite build",
