@@ -101,4 +101,35 @@ button {
 button:hover {
   background: var(--highlight);
 }
+
+@media (max-width: 640px) {
+  .event-details {
+    flex-wrap: wrap;
+    align-content: flex-start;
+    gap: 0.6rem 1rem;
+    height: 10rem;
+  }
+
+  .label {
+    order: 0;
+  }
+
+  button {
+    order: 1;
+  }
+
+  .event-title {
+    order: 2;
+    flex: 1 1 100%;
+    min-width: 0;
+    max-width: none;
+  }
+
+  dl {
+    order: 3;
+    grid-template-columns: repeat(3, auto);
+    grid-template-rows: auto auto;
+    grid-auto-flow: column;
+  }
+}
 </style>

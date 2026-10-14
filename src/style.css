@@ -35,3 +35,12 @@ body,
 *::after {
   box-sizing: border-box;
 }
+
+@media (max-width: 640px), (max-height: 600px) {
+  html,
+  body,
+  #app {
+    height: auto;
+    overflow: visible;
+  }
+}

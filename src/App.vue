@@ -223,4 +223,29 @@ select:focus {
     width: auto;
   }
 }
+
+@media (max-width: 640px), (max-height: 600px) {
+  .app-container {
+    height: auto;
+    overflow: visible;
+    padding: 12px;
+  }
+
+  .content-container,
+  .events-container {
+    flex: none;
+    overflow: visible;
+  }
+
+  .event-map {
+    flex: none;
+    height: 55svh;
+    min-height: 16rem;
+  }
+
+  .event-list {
+    flex: none;
+    height: 24rem;
+  }
+}
 </style>

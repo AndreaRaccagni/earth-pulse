@@ -127,8 +127,6 @@ watch(
 
 <style scoped>
 #map {
-  flex: 1;
   min-width: 0;
-  height: 100%;
 }
 </style>
